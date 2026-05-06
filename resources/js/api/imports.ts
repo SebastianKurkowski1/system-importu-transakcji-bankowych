@@ -1,4 +1,4 @@
-import type { ImportItem, PaginationMeta } from '@/types';
+import type {ImportDetails, ImportItem, PaginationMeta} from '@/types';
 
 type ApiResponse<T> = {
     data: T;
@@ -51,8 +51,8 @@ export const fetchImports = async (page = 1): Promise<PaginatedResult<ImportItem
     };
 };
 
-export const fetchImport = async (id: string, logsPage = 1): Promise<ImportItem> => {
-    const payload = await fetchJson<ApiResponse<ImportItem>>(`/api/imports/${id}?logs_page=${logsPage}`);
+export const fetchImport = async (id: string, logsPage = 1): Promise<ImportDetails> => {
+    const payload = await fetchJson<ApiResponse<ImportDetails>>(`/api/imports/${id}?logs_page=${logsPage}`);
 
     return payload.data;
 };

@@ -3,12 +3,25 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\UploadedFile;
+use RuntimeException;
 
 class StoreImportRequest extends FormRequest
 {
     public function authorize(): bool
     {
         return true;
+    }
+
+    public function uploadedFile(): UploadedFile
+    {
+        $file = $this->file('file');
+
+        if (! $file instanceof UploadedFile) {
+            throw new RuntimeException('Import file is required.');
+        }
+
+        return $file;
     }
 
     /**

@@ -25,7 +25,7 @@ class ImportController extends Controller
 
     public function store(StoreImportRequest $request, ProcessTransactionImport $processImport): JsonResponse
     {
-        $import = $processImport->handle($request->file('file'));
+        $import = $processImport->handle($request->uploadedFile());
 
         return (new ImportResource($import))
             ->response()

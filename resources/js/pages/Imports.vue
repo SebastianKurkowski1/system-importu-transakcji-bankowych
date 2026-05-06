@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { fetchImport, fetchImports, uploadImport } from '@/api/imports';
 import { Button } from '@/components/ui/button';
-import type { ImportItem, ImportStatus, PaginationMeta } from '@/types';
+import type { ImportDetails, ImportItem, ImportStatus, PaginationMeta } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import { AlertTriangle, CheckCircle2, ChevronLeft, ChevronRight, FileUp, ListChecks, RefreshCw, Upload, XCircle } from 'lucide-vue-next';
 import { computed, onMounted, ref } from 'vue';
@@ -15,7 +15,9 @@ const emptyPagination: PaginationMeta = {
     total: 0,
 };
 
-const imports = ref<ImportItem[]>([]);
+type ImportViewItem = ImportItem & Partial<Pick<ImportDetails, 'logs_meta'>>;
+
+const imports = ref<ImportViewItem[]>([]);
 const importsMeta = ref<PaginationMeta>({ ...emptyPagination });
 const selectedFile = ref<File | null>(null);
 const selectedImportId = ref<string | null>(null);

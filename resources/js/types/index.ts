@@ -7,8 +7,8 @@ export interface ImportLog {
     import_id: string;
     transaction_id: string | null;
     error_message: string;
-    created_at: string | null;
-    updated_at: string | null;
+    created_at: string;
+    updated_at: string;
 }
 
 export interface PaginationMeta {
@@ -27,8 +27,11 @@ export interface ImportItem {
     successful_records: number;
     failed_records: number;
     status: ImportStatus;
-    created_at: string | null;
-    updated_at: string | null;
-    logs?: ImportLog[];
-    logs_meta?: PaginationMeta;
+    created_at: string;
+    updated_at: string;
+    logs: ImportLog[];
+}
+
+export interface ImportDetails extends ImportItem {
+    logs_meta: PaginationMeta;
 }

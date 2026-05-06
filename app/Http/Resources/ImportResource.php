@@ -17,8 +17,8 @@ class ImportResource extends JsonResource
             'successful_records' => $this->successful_records,
             'failed_records' => $this->failed_records,
             'status' => $this->status instanceof ImportStatus ? $this->status->value : $this->status,
-            'created_at' => $this->created_at?->toISOString(),
-            'updated_at' => $this->updated_at?->toISOString(),
+            'created_at' => $this->created_at->toISOString(),
+            'updated_at' => $this->updated_at->toISOString(),
             'logs' => $this->relationLoaded('logs')
                 ? ImportLogResource::collection($this->logs)
                 : [],

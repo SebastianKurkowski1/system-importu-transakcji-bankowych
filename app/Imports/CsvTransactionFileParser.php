@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Imports\Contracts\TransactionFileParser;
 use Illuminate\Http\UploadedFile;
+use RuntimeException;
 use SplFileObject;
 
 class CsvTransactionFileParser implements TransactionFileParser
@@ -15,7 +16,7 @@ class CsvTransactionFileParser implements TransactionFileParser
 
     public function parse(UploadedFile $file): iterable
     {
-        $csv = new SplFileObject($file->getRealPath());
+        $csv = new SplFileObject($this->filePath($file));
         $csv->setCsvControl($this->detectDelimiter($file));
         $csv->setFlags(SplFileObject::READ_CSV | SplFileObject::SKIP_EMPTY);
 
@@ -71,9 +72,20 @@ class CsvTransactionFileParser implements TransactionFileParser
         return $bestDelimiter;
     }
 
+    private function filePath(UploadedFile $file): string
+    {
+        $path = $file->getRealPath();
+
+        if ($path === false) {
+            throw new RuntimeException('Import file could not be read.');
+        }
+
+        return $path;
+    }
+
     private function firstNonEmptyLine(UploadedFile $file): ?string
     {
-        $handle = fopen($file->getRealPath(), 'r');
+        $handle = fopen($this->filePath($file), 'r');
 
         if ($handle === false) {
             return null;
